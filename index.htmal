@@ -25,10 +25,11 @@
     }
 
     /* 🔹 هدر یک‌خطی: راست = لوگو+عنوان، چپ = درباره */
-   .topbar{
+.topbar{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  flex-direction: row-reverse; /* این خط جادویی‌ست 😄 */
   gap:16px;
   margin-bottom:22px;
 }
