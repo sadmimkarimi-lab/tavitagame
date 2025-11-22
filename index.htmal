@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>بازی‌های طاویتا</title>
+
+  <!-- فونت وزیر -->
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+
+  <style>
+    *{box-sizing:border-box;}
+
+    body{
+      margin:0;
+      font-family:Vazir,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:radial-gradient(circle at top,#1d2a5b,#020617);
+      color:#e5e7eb;
+    }
+
+    .page{
+      max-width:1000px;
+      margin:0 auto;
+      padding:18px 16px 40px;
+    }
+
+    /* 🔹 هدر یک‌خطی: راست = لوگو+عنوان، چپ = درباره */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:22px;
+    }
+
+    .header-right{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo-wrap{
+      width:70px;
+      height:70px;
+      border-radius:20px;
+      overflow:hidden;
+      background:#020617;
+      box-shadow:
+        0 0 0 2px rgba(129,140,248,.8),
+        0 12px 26px rgba(15,23,42,.9);
+      flex-shrink:0;
+    }
+    .logo-wrap img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .title-box{
+      text-align:right;
+    }
+    .title-box h1{
+      margin:0;
+      font-size:22px;
+    }
+    .title-box p{
+      margin:2px 0 0;
+      font-size:14px;
+      color:#d1d5db;
+    }
+
+    .about-btn{
+      border:none;
+      border-radius:999px;
+      padding:8px 18px;
+      font-size:13px;
+      cursor:pointer;
+      background:linear-gradient(135deg,#22c55e,#a3e635);
+      color:#022c22;
+      white-space:nowrap;
+      box-shadow:0 8px 18px rgba(22,163,74,.6);
+    }
+    .about-btn:active{
+      transform:translateY(1px);
+      box-shadow:0 4px 10px rgba(22,163,74,.5);
+    }
+
+    @media(max-width:600px){
+      .topbar{
+        flex-direction:column;
+        align-items:stretch;
+        gap:10px;
+      }
+      .header-right{
+        justify-content:center;
+      }
+      .about-btn{
+        align-self:flex-start;
+      }
+    }
+
+    /* 🔹 گرید کارت‌ها */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:8px;
+    }
+    @media(max-width:900px){
+      .grid{grid-template-columns:repeat(2,1fr);}
+    }
+
+    .card{
+      background:radial-gradient(circle at top,#111827,#020617);
+      border-radius:20px;
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      box-shadow:0 16px 36px rgba(15,23,42,.9);
+    }
+
+    .card-banner{
+      width:100%;
+      border-radius:14px;
+      overflow:hidden;
+      background:#020617;
+      margin-bottom:10px;
+      position:relative;
+      padding-top:56%;
+    }
+    .card-banner img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .card-badge{
+      position:absolute;
+      top:6px;
+      right:6px;
+      padding:3px 8px;
+      border-radius:999px;
+      font-size:10px;
+      background:rgba(15,23,42,.85);
+    }
+
+    .card-title{
+      font-size:15px;
+      font-weight:600;
+      margin-bottom:4px;
+    }
+    .card-desc{
+      font-size:12px;
+      color:#9ca3af;
+      line-height:1.8;
+      min-height:40px;
+    }
+    .card-footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:12px;
+      margin-top:10px;
+    }
+    .status-active{color:#6ee7b7;}
+    .status-soon{color:#facc15;}
+
+    .card-btn{
+      border:none;
+      border-radius:999px;
+      padding:7px 16px;
+      font-size:12px;
+      cursor:pointer;
+      background:linear-gradient(135deg,#6366f1,#ec4899);
+      color:#fff;
+      box-shadow:0 10px 22px rgba(79,70,229,.9);
+    }
+    .card-btn[disabled]{
+      opacity:.6;
+      cursor:default;
+      background:#111827;
+      box-shadow:none;
+    }
+
+    /* 🔹 پاپ‌آپ درباره */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(15,23,42,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:30;
+    }
+    .modal-backdrop.active{display:flex;}
+
+    .modal{
+      background:#020617;
+      border-radius:20px;
+      padding:16px 16px 14px;
+      max-width:340px;
+      width:88%;
+      box-shadow:0 20px 50px rgba(15,23,42,.95);
+      font-size:13px;
+    }
+    .modal h3{
+      margin:0 0 8px;
+      font-size:15px;
+      text-align:right;
+    }
+    .modal p{
+      margin:4px 0;
+      color:#d1d5db;
+      line-height:1.9;
+    }
+    .modal-close{
+      margin-top:10px;
+      width:100%;
+      border-radius:999px;
+      border:none;
+      padding:7px 0;
+      font-size:13px;
+      background:linear-gradient(135deg,#22c55e,#a3e635);
+      color:#022c22;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- 🔹 هدر -->
+    <header class="topbar">
+      <div class="header-right">
+        <div class="logo-wrap">
+          <!-- هر وقت خواستی این لینک رو عوض کن -->
+          <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/logoball.webp" alt="لوگوی طاویتا">
+        </div>
+        <div class="title-box">
+          <h1>بازی‌های طاویتا 🎮</h1>
+          <p>اینجا ذهنت رو به چالش می‌کشی</p>
+        </div>
+      </div>
+
+      <button class="about-btn" id="aboutBtn">درباره طاویتا</button>
+    </header>
+
+    <!-- 🔹 کارت‌ها: ۴ بازی فعال + ۴ به‌زودی -->
+    <section class="grid">
+
+      <!-- هوشیتا -->
+      <div class="card" data-url="https://hooshita.vercel.app/">
+        <div class="card-banner">
+          <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/kart-elm.webp" alt="هوشیتا">
+          <div class="card-badge">هوشیتا</div>
+        </div>
+        <div class="card-title">هوشیتا</div>
+        <div class="card-desc">
+          سوال‌های هوش، تمرکز و سرعت‌عمل؛ روشن، رنگی و بدون استرس، مخصوص تمرین ذهن باحال تو.
+        </div>
+        <div class="card-footer">
+          <span class="status-active">فعال</span>
+          <button class="card-btn">شروع بازی</button>
+        </div>
+      </div>
+
+      <!-- بازی با کلمات -->
+      <div class="card" data-url="https://bazi-kalamat.vercel.app/">
+        <div class="card-banner">
+          <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/kart-elm.webp" alt="بازی با کلمات">
+          <div class="card-badge">بازی با کلمات</div>
+        </div>
+        <div class="card-title">بازی با کلمات</div>
+        <div class="card-desc">
+          چالش حدس کلمات و تقویت هوش زبانی؛ از ساده تا سخت، برای گرم کردن خوشگل‌ترین ذهن دنیا.
+        </div>
+        <div class="card-footer">
+          <span class="status-active">فعال</span>
+          <button class="card-btn">شروع بازی</button>
+        </div>
+      </div>
+
+      <!-- توپ‌بارون -->
+      <div class="card" data-url="https://ball-rain.vercel.app/">
+        <div class="card-banner">
+          <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/kart-elm.webp" alt="توپ‌بارون">
+          <div class="card-badge">توپ‌بارون</div>
+        </div>
+        <div class="card-title">توپ‌بارون</div>
+        <div class="card-desc">
+          بارش توپ روی بلوک‌ها، جمع کردن امتیازهای رنگی و رکورد زدن؛ یک بازی ریتمیک و هیجان‌انگیز.
+        </div>
+        <div class="card-footer">
+          <span class="status-active">فعال</span>
+          <button class="card-btn">شروع بازی</button>
+        </div>
+      </div>
+
+      <!-- بدشکن طاویتا -->
+      <div class="card" data-url="https://bad-breaker.vercel.app/">
+        <div class="card-banner">
+          <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/kart-elm.webp" alt="بدشکن طاویتا">
+          <div class="card-badge">بدشکن</div>
+        </div>
+        <div class="card-title">بدشکن طاویتا</div>
+        <div class="card-desc">
+          با پد و توپ، بلوک‌های عادت بد رو می‌شکنی و ذهنت رو به سمت خوبی‌ها، امید و نسخهٔ بهتر خودت می‌بری.
+        </div>
+        <div class="card-footer">
+          <span class="status-active">فعال</span>
+          <button class="card-btn">شروع بازی</button>
+        </div>
+      </div>
+
+      <!-- بازی ۵ -->
+      <div class="card">
+        <div class="card-banner">
+          <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/kart-elm.webp" alt="بازی ۵">
+          <div class="card-badge">به زودی</div>
+        </div>
+        <div class="card-title">بازی ۵</div>
+        <div class="card-desc">
+          بازی جدید طاویتا؛ یک چالش ذهنی تازه که خیلی زود کنار بقیه بازی‌ها می‌نشیند.
+        </div>
+        <div class="card-footer">
+          <span class="status-soon">به زودی</span>
+          <button class="card-btn" disabled>به زودی</button>
+        </div>
+      </div>
+
+      <!-- بازی ۶ -->
+      <div class="card">
+        <div class="card-banner">
+          <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/kart-elm.webp" alt="بازی ۶">
+          <div class="card-badge">به زودی</div>
+        </div>
+        <div class="card-title">بازی ۶</div>
+        <div class="card-desc">
+          یکی دیگه از بازی‌های طاویتا؛ فعلاً در حال ساخت، اما به‌زودی روشن می‌شود.
+        </div>
+        <div class="card-footer">
+          <span class="status-soon">به زودی</span>
+          <button class="card-btn" disabled>به زودی</button>
+        </div>
+      </div>
+
+      <!-- بازی ۷ -->
+      <div class="card">
+        <div class="card-banner">
+          <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/kart-elm.webp" alt="بازی ۷">
+          <div class="card-badge">به زودی</div>
+        </div>
+        <div class="card-title">بازی ۷</div>
+        <div class="card-desc">
+          محل بازی‌های بعدی؛ جایی برای ایده‌های تازه‌ای که تو و طاویتا باهم می‌سازین.
+        </div>
+        <div class="card-footer">
+          <span class="status-soon">به زودی</span>
+          <button class="card-btn" disabled>به زودی</button>
+        </div>
+      </div>
+
+      <!-- بازی ۸ -->
+      <div class="card">
+        <div class="card-banner">
+          <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/kart-elm.webp" alt="بازی ۸">
+          <div class="card-badge">به زودی</div>
+        </div>
+        <div class="card-title">بازی ۸</div>
+        <div class="card-desc">
+          یک ابزار ذهنی دیگر از طاویتا؛ برای تمرین تمرکز و خلاقیت، در راه است.
+        </div>
+        <div class="card-footer">
+          <span class="status-soon">به زودی</span>
+          <button class="card-btn" disabled>به زودی</button>
+        </div>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- 🔹 پاپ‌آپ درباره طاویتا -->
+  <div class="modal-backdrop" id="aboutModal">
+    <div class="modal">
+      <h3>درباره طاویتا</h3>
+      <p>
+        طاویتا یک فضای آموزشی و سرگرم‌کننده‌ست که با بازی‌ها و ابزارهای ذهنی، کمک می‌کنه هوش، تمرکز، خلاقیت و حالِ خوبت رو تمرین کنی.
+      </p>
+      <p>
+        هدف طاویتا اینه که یادگیری و کار روی عادت‌ها شبیه یک بازی جذاب و بدون استرس باشه؛ جایی که با چند کلیک ساده، هم ذهن‌ات رو به چالش می‌کشی و هم بیشتر خودت رو می‌شناسی.
+      </p>
+      <p>
+        بازی‌های طاویتا قدم‌به‌قدم همراه تو هستن تا نسخهٔ قوی‌تر، آرام‌تر و شادترِ خودت رو بسازی 💚
+      </p>
+      <button class="modal-close" id="aboutClose">باشه</button>
+    </div>
+  </div>
+
+  <script>
+    // دکمه‌های شروع بازی
+    document.querySelectorAll(".card[data-url]").forEach(card=>{
+      const btn = card.querySelector(".card-btn");
+      const url = card.getAttribute("data-url");
+      btn.addEventListener("click",e=>{
+        e.stopPropagation();
+        if(!url) return;
+        window.location.href = url;
+      });
+    });
+
+    // پاپ‌آپ درباره طاویتا
+    const aboutBtn   = document.getElementById("aboutBtn");
+    const aboutModal = document.getElementById("aboutModal");
+    const aboutClose = document.getElementById("aboutClose");
+
+    aboutBtn.addEventListener("click",()=>aboutModal.classList.add("active"));
+    aboutClose.addEventListener("click",()=>aboutModal.classList.remove("active"));
+    aboutModal.addEventListener("click",e=>{
+      if(e.target===aboutModal) aboutModal.classList.remove("active");
+    });
+  </script>
+</body>
+</html>
