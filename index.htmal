@@ -24,19 +24,21 @@
       padding:18px 16px 40px;
     }
 
-    /* 🔹 هدر یک‌خطی: راست = لوگو+عنوان، چپ = درباره */
+    /* 🔹 هدر یک‌خطی */
     .topbar{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:16px;
       margin-bottom:22px;
+      direction:ltr;           /* ترتیب فلکس بر اساس چپ→راست */
     }
 
     .header-right{
       display:flex;
       align-items:center;
       gap:12px;
+      direction:rtl;           /* متن داخل هدر راست‌چین بمونه */
     }
 
     .logo-wrap{
@@ -79,6 +81,7 @@
       color:#022c22;
       white-space:nowrap;
       box-shadow:0 8px 18px rgba(22,163,74,.6);
+      direction:rtl;           /* متن دکمه فارسی */
     }
     .about-btn:active{
       transform:translateY(1px);
@@ -231,6 +234,9 @@
 
     <!-- 🔹 هدر -->
     <header class="topbar">
+      <!-- چپ: درباره -->
+      <button class="about-btn" id="aboutBtn">درباره طاویتا</button>
+
       <!-- راست: لوگو + عنوان -->
       <div class="header-right">
         <div class="logo-wrap">
@@ -242,9 +248,6 @@
           <p>اینجا ذهنت رو به چالش می‌کشی</p>
         </div>
       </div>
-
-      <!-- چپ: درباره -->
-      <button class="about-btn" id="aboutBtn">درباره طاویتا</button>
     </header>
 
     <!-- 🔹 کارت‌ها: ۴ بازی فعال + ۴ به‌زودی -->
