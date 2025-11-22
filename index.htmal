@@ -25,14 +25,13 @@
     }
 
     /* 🔹 هدر یک‌خطی: راست = لوگو+عنوان، چپ = درباره */
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:22px;
-    }
-
+   .topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:22px;
+}
     .header-right{
       display:flex;
       align-items:center;
@@ -86,18 +85,21 @@
     }
 
     @media(max-width:600px){
-      .topbar{
-        flex-direction:column;
-        align-items:stretch;
-        gap:10px;
-      }
-      .header-right{
-        justify-content:center;
-      }
-      .about-btn{
-        align-self:flex-start;
-      }
-    }
+  .topbar{
+    flex-direction:column;
+    align-items:stretch;
+    gap:10px;
+  }
+
+  .header-right{
+    justify-content:center;
+  }
+
+  .about-btn{
+    align-self:flex-start;
+    margin-right:0;
+  }
+}
 
     /* 🔹 گرید کارت‌ها */
     .grid{
@@ -232,20 +234,24 @@
   <div class="page">
 
     <!-- 🔹 هدر -->
-    <header class="topbar">
-      <div class="header-right">
-        <div class="logo-wrap">
-          <!-- هر وقت خواستی این لینک رو عوض کن -->
-          <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/logoball.webp" alt="لوگوی طاویتا">
-        </div>
-        <div class="title-box">
-          <h1>بازی‌های طاویتا 🎮</h1>
-          <p>اینجا ذهنت رو به چالش می‌کشی</p>
-        </div>
-      </div>
+ <header class="topbar">
 
-      <button class="about-btn" id="aboutBtn">درباره طاویتا</button>
-    </header>
+  <!-- ✅ سمت چپ فقط دکمه درباره -->
+  <button class="about-btn" id="aboutBtn">درباره طاویتا</button>
+
+  <!-- ✅ سمت راست: لوگو + عنوان + متن -->
+  <div class="header-right">
+    <div class="logo-wrap">
+      <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/logoball.webp" alt="لوگوی طاویتا">
+    </div>
+
+    <div class="title-box">
+      <h1>بازی‌های طاویتا 🎮</h1>
+      <p>اینجا ذهنت رو به چالش می‌کشی</p>
+    </div>
+  </div>
+
+</header>
 
     <!-- 🔹 کارت‌ها: ۴ بازی فعال + ۴ به‌زودی -->
     <section class="grid">
