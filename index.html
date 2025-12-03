@@ -9,6 +9,52 @@
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
 
   <style>
+
+
+
+/* ======================= */
+/* 🔥 لایهٔ نمایش بازی */
+.hidden {
+  display: none !important;
+}
+
+.game-screen {
+  position: fixed;
+  inset: 0;
+  background: #020617;
+  display: none;
+  z-index: 40;
+}
+
+.game-screen.active {
+  display: block;
+}
+
+.game-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.game-back-btn {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  z-index: 50;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  font-size: 13px;
+  background: linear-gradient(135deg,#f97316,#ec4899);
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(248,113,113,.4);
+  cursor: pointer;
+}
+
+
+
+
+    
     *{box-sizing:border-box;}
 
     body{
@@ -385,6 +431,17 @@
     </section>
   </div>
 
+
+
+<!-- ========================== -->
+<!-- 🔥 صفحهٔ نمایش بازی داخل طاویتا -->
+<div id="gameScreen" class="game-screen">
+  <iframe id="gameFrame" class="game-frame" src="" allow="autoplay; fullscreen"></iframe>
+  <button id="closeGameBtn" class="game-back-btn">بازگشت</button>
+</div>
+<!-- ========================== -->
+
+  
   <!-- 🔹 پاپ‌آپ درباره طاویتا -->
   <div class="modal-backdrop" id="aboutModal">
     <div class="modal">
@@ -402,28 +459,97 @@
     </div>
   </div>
 
-  <script>
-    // دکمه‌های شروع بازی
-    document.querySelectorAll(".card[data-url]").forEach(card=>{
-      const btn = card.querySelector(".card-btn");
-      const url = card.getAttribute("data-url");
-      btn.addEventListener("click",e=>{
-        e.stopPropagation();
-        if(!url) return;
-        window.location.href = url;
-      });
-    });
+ <script>
+/* ===============================
+   🔥 هاب اصلی مدیریت بازی‌ها
+   ===============================*/
 
-    // پاپ‌آپ درباره طاویتا
-    const aboutBtn   = document.getElementById("aboutBtn");
-    const aboutModal = document.getElementById("aboutModal");
-    const aboutClose = document.getElementById("aboutClose");
+// المنت‌های اصلی صفحه
+const pageEl        = document.querySelector(".page");
+const gameScreen    = document.getElementById("gameScreen");
+const gameFrame     = document.getElementById("gameFrame");
+const closeGameBtn  = document.getElementById("closeGameBtn");
 
-    aboutBtn.addEventListener("click",()=>aboutModal.classList.add("active"));
-    aboutClose.addEventListener("click",()=>aboutModal.classList.remove("active"));
-    aboutModal.addEventListener("click",e=>{
-      if(e.target===aboutModal) aboutModal.classList.remove("active");
-    });
-  </script>
+// اتصال به WebApp ایتا
+let webApp = null;
+if (window.Eitaa && window.Eitaa.WebApp) {
+  webApp = window.Eitaa.WebApp;
+
+  if (typeof webApp.ready === "function") {
+    webApp.ready();
+  }
+  if (webApp.BackButton) {
+    webApp.BackButton.hide();
+  }
+}
+
+// ===============================
+// 🔥 باز کردن بازی داخل iframe
+// ===============================
+function openGame(url) {
+  if (!url) return;
+
+  gameFrame.src = url;
+  pageEl.classList.add("hidden");
+  gameScreen.classList.add("active");
+
+  if (webApp && webApp.BackButton) {
+    webApp.BackButton.show();
+    webApp.BackButton.onClick(handleBackFromGame);
+  }
+}
+
+// ===============================
+// 🔥 برگشت از بازی به لیست
+// ===============================
+function handleBackFromGame() {
+  gameFrame.src = "";
+  gameScreen.classList.remove("active");
+  pageEl.classList.remove("hidden");
+
+  if (webApp && webApp.BackButton) {
+    webApp.BackButton.hide();
+  }
+}
+
+// ===============================
+// 🔥 دکمه‌های «شروع بازی»
+// ===============================
+document.querySelectorAll(".card[data-url]").forEach(card => {
+  const btn = card.querySelector(".card-btn");
+  const url = card.getAttribute("data-url");
+
+  btn.addEventListener("click", e => {
+    e.stopPropagation();
+    openGame(url);
+  });
+});
+
+// ===============================
+// 🔥 دکمه بازگشت پایین صفحه بازی
+// ===============================
+closeGameBtn.addEventListener("click", handleBackFromGame);
+
+// ===============================
+// 🔥 پاپ‌آپ درباره طاویتا
+// ===============================
+const aboutBtn   = document.getElementById("aboutBtn");
+const aboutModal = document.getElementById("aboutModal");
+const aboutClose = document.getElementById("aboutClose");
+
+aboutBtn.addEventListener("click", () =>
+  aboutModal.classList.add("active")
+);
+
+aboutClose.addEventListener("click", () =>
+  aboutModal.classList.remove("active")
+);
+
+aboutModal.addEventListener("click", e => {
+  if (e.target === aboutModal) {
+    aboutModal.classList.remove("active");
+  }
+});
+</script>
 </body>
 </html>
