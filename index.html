@@ -2,250 +2,85 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>بازی‌های طاویتا</title>
-
-  <!-- فونت وزیر -->
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
-  <!-- SDK ایتا -->
   <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
-
   <style>
-    *{box-sizing:border-box;}
-
+    *{box-sizing:border-box;margin:0;padding:0}
     body{
-      margin:0;
       font-family:Vazir,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:radial-gradient(circle at top,#1d2a5b,#020617);
+      background:radial-gradient(circle at top,#1f2937,#020617);
       color:#e5e7eb;
     }
-
-    .page{
-      max-width:1000px;
-      margin:0 auto;
-      padding:18px 16px 40px;
-    }
-
-    /* 🔹 هدر یک‌خطی */
+    .page{max-width:1000px;margin:0 auto;padding:18px 16px 40px}
     .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:22px;
-      direction:ltr;           /* ترتیب فلکس بر اساس چپ→راست */
+      display:flex;align-items:center;justify-content:space-between;
+      gap:12px;margin-bottom:20px;direction:ltr
     }
-
-    .header-right{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      direction:rtl;           /* متن داخل هدر راست‌چین بمونه */
-    }
-
+    .header-right{display:flex;align-items:center;gap:10px;direction:rtl}
     .logo-wrap{
-      width:70px;
-      height:70px;
-      border-radius:20px;
-      overflow:hidden;
-      background:#020617;
-      box-shadow:
-        0 0 0 2px rgba(129,140,248,.8),
-        0 12px 26px rgba(15,23,42,.9);
-      flex-shrink:0;
+      width:70px;height:70px;border-radius:20px;overflow:hidden;
+      background:#020617;box-shadow:0 0 0 2px rgba(129,140,248,.8),0 10px 24px rgba(15,23,42,.9);
+      flex-shrink:0
     }
-    .logo-wrap img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .title-box{
-      text-align:right;
-    }
-    .title-box h1{
-      margin:0;
-      font-size:22px;
-    }
-    .title-box p{
-      margin:2px 0 0;
-      font-size:14px;
-      color:#d1d5db;
-    }
-
+    .logo-wrap img{width:100%;height:100%;object-fit:cover}
+    .title-box{text-align:right}
+    .title-box h1{font-size:22px;margin-bottom:2px}
+    .title-box p{font-size:14px;color:#d1d5db}
     .about-btn{
-      border:none;
-      border-radius:999px;
-      padding:8px 18px;
-      font-size:13px;
-      cursor:pointer;
-      background:linear-gradient(135deg,#22c55e,#a3e635);
-      color:#022c22;
-      white-space:nowrap;
-      box-shadow:0 8px 18px rgba(22,163,74,.6);
-      direction:rtl;           /* متن دکمه فارسی */
+      border:none;border-radius:999px;padding:8px 18px;
+      font-size:13px;cursor:pointer;white-space:nowrap;direction:rtl;
+      background:linear-gradient(135deg,#22c55e,#a3e635);color:#022c22;
+      box-shadow:0 8px 18px rgba(22,163,74,.6)
     }
-    .about-btn:active{
-      transform:translateY(1px);
-      box-shadow:0 4px 10px rgba(22,163,74,.5);
-    }
-
-    /* ❗ اینجا رو عوض کردم که تو موبایل هم یک خط بمونه */
+    .about-btn:active{transform:translateY(1px);box-shadow:0 4px 10px rgba(22,163,74,.5)}
     @media(max-width:600px){
-      .topbar{
-        flex-direction:row;      /* دیگه column نیست */
-        align-items:center;
-        gap:10px;
-      }
-
-      .header-right{
-        justify-content:flex-end;
-      }
+      .topbar{flex-direction:row;align-items:center}
+      .header-right{flex:1;justify-content:flex-end}
     }
-
-    /* 🔹 گرید کارت‌ها */
     .grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:14px;
-      margin-top:8px;
+      display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
     }
-    @media(max-width:900px){
-      .grid{grid-template-columns:repeat(2,1fr);}
-    }
-
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
     .card{
       background:radial-gradient(circle at top,#111827,#020617);
-      border-radius:20px;
-      padding:12px;
-      display:flex;
-      flex-direction:column;
-      box-shadow:0 16px 36px rgba(15,23,42,.9);
+      border-radius:20px;padding:12px;display:flex;flex-direction:column;
+      box-shadow:0 16px 32px rgba(15,23,42,.9)
     }
-
     .card-banner{
-      width:100%;
-      border-radius:14px;
-      overflow:hidden;
-      background:#020617;
-      margin-bottom:10px;
-      position:relative;
-      padding-top:56%;
+      position:relative;width:100%;padding-top:56%;
+      border-radius:14px;overflow:hidden;background:#020617;margin-bottom:10px
     }
     .card-banner img{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
+      position:absolute;inset:0;width:100%;height:100%;object-fit:cover
     }
     .card-badge{
-      position:absolute;
-      top:6px;
-      right:6px;
-      padding:3px 8px;
-      border-radius:999px;
-      font-size:10px;
-      background:rgba(15,23,42,.85);
+      position:absolute;top:6px;right:6px;
+      padding:2px 8px;border-radius:999px;font-size:10px;
+      background:rgba(15,23,42,.85)
     }
-
-    .card-title{
-      font-size:15px;
-      font-weight:600;
-      margin-bottom:4px;
-    }
-    .card-desc{
-      font-size:12px;
-      color:#9ca3af;
-      line-height:1.8;
-      min-height:40px;
-    }
-    .card-footer{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      font-size:12px;
-      margin-top:10px;
-    }
-    .status-active{color:#6ee7b7;}
-    .status-soon{color:#facc15;}
-
+    .card-title{font-size:15px;font-weight:600;margin-bottom:4px}
+    .card-desc{font-size:12px;color:#9ca3af;line-height:1.8;min-height:40px}
+    .card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px}
+    .status-active{color:#6ee7b7}
+    .status-soon{color:#facc15}
     .card-btn{
-      border:none;
-      border-radius:999px;
-      padding:7px 16px;
-      font-size:12px;
-      cursor:pointer;
-      background:linear-gradient(135deg,#6366f1,#ec4899);
-      color:#fff;
-      box-shadow:0 10px 22px rgba(79,70,229,.9);
+      border:none;border-radius:999px;padding:7px 16px;font-size:12px;
+      cursor:pointer;background:linear-gradient(135deg,#6366f1,#ec4899);color:#fff;
+      box-shadow:0 8px 18px rgba(79,70,229,.9)
     }
-    .card-btn[disabled]{
-      opacity:.6;
-      cursor:default;
-      background:#111827;
-      box-shadow:none;
-    }
-
-    /* 🔹 پاپ‌آپ درباره */
-    .modal-backdrop{
-      position:fixed;
-      inset:0;
-      background:rgba(15,23,42,.55);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:30;
-    }
-    .modal-backdrop.active{display:flex;}
-
-    .modal{
-      background:#020617;
-      border-radius:20px;
-      padding:16px 16px 14px;
-      max-width:340px;
-      width:88%;
-      box-shadow:0 20px 50px rgba(15,23,42,.95);
-      font-size:13px;
-    }
-    .modal h3{
-      margin:0 0 8px;
-      font-size:15px;
-      text-align:right;
-    }
-    .modal p{
-      margin:4px 0;
-      color:#d1d5db;
-      line-height:1.9;
-    }
-    .modal-close{
-      margin-top:10px;
-      width:100%;
-      border-radius:999px;
-      border:none;
-      padding:7px 0;
-      font-size:13px;
-      background:linear-gradient(135deg,#22c55e,#a3e635);
-      color:#022c22;
-      cursor:pointer;
-    }
+    .card-btn[disabled]{opacity:.6;cursor:default;background:#111827;box-shadow:none}
   </style>
 </head>
-
 <body>
   <div class="page">
-
-    <!-- 🔹 هدر -->
     <header class="topbar">
-      <!-- چپ: کانال طاویتا (جای درباره) -->
       <button class="about-btn" id="aboutBtn">کانال طاویتا</button>
-
-      <!-- راست: لوگو + عنوان -->
       <div class="header-right">
         <div class="logo-wrap">
           <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/logogame.webp" alt="لوگوی طاویتا">
         </div>
-
         <div class="title-box">
           <h1>بازی‌های طاویتا 🎮</h1>
           <p>اینجا ذهنت رو به چالش می‌کشی</p>
@@ -253,14 +88,11 @@
       </div>
     </header>
 
-    <!-- 🔹 کارت‌ها: ۴ بازی فعال + ۴ به‌زودی -->
     <section class="grid">
 
-      <!-- هوشیتا -->
       <div class="card" data-url="https://hooshita.vercel.app/">
         <div class="card-banner">
           <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/hooshitagqme.webp" alt="هوشیتا">
-        
         </div>
         <div class="card-title">هوشیتا</div>
         <div class="card-desc">
@@ -272,11 +104,9 @@
         </div>
       </div>
 
-      <!-- بازی با کلمات -->
       <div class="card" data-url="https://bazi-kalamat.vercel.app/">
         <div class="card-banner">
           <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/kalamatgame.webp" alt="بازی با کلمات">
-         
         </div>
         <div class="card-title">بازی با کلمات</div>
         <div class="card-desc">
@@ -288,11 +118,9 @@
         </div>
       </div>
 
-      <!-- توپ‌بارون -->
       <div class="card" data-url="https://ball-rain.vercel.app/">
         <div class="card-banner">
           <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/toopgame.webp" alt="توپ‌بارون">
-          
         </div>
         <div class="card-title">توپ‌بارون</div>
         <div class="card-desc">
@@ -304,15 +132,13 @@
         </div>
       </div>
 
-      <!-- بدشکن طاویتا -->
       <div class="card" data-url="https://bad-breaker.vercel.app/">
         <div class="card-banner">
           <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/badshekangame.webp" alt="بدشکن طاویتا">
-          
         </div>
         <div class="card-title">بدشکن طاویتا</div>
         <div class="card-desc">
-          با پد و توپ، آجرهای عادتهای بَد رو بشکون و ذهنت رو به سمت خوبی‌ و نسخهٔ بهتر خودت ببر.
+          با پد و توپ، آجرهای عادت‌های بَد رو بشکون و ذهنت رو به سمت خوبی‌ و نسخهٔ بهتر خودت ببر.
         </div>
         <div class="card-footer">
           <span class="status-active">فعال</span>
@@ -320,15 +146,13 @@
         </div>
       </div>
 
-      <!-- تانکیتا -->
       <div class="card" data-url="https://tank-two-navy.vercel.app/">
         <div class="card-banner">
-          <img src="https://cdnfa.com/irangiah/a9be/uploads/tank/bannertank.webp" alt="بدشکن طاویتا">
-          
+          <img src="https://cdnfa.com/irangiah/a9be/uploads/tank/bannertank.webp" alt="تانکیتا">
         </div>
         <div class="card-title">تانکیتا</div>
         <div class="card-desc">
-          با تانک اراده ات به جنگ با بدی ها برو... در این باری مرحله به مرحله قوی تر خواهی شد.
+          با تانک اراده‌ات به جنگ با بدی‌ها برو و مرحله به مرحله قوی‌تر شو.
         </div>
         <div class="card-footer">
           <span class="status-active">فعال</span>
@@ -336,7 +160,6 @@
         </div>
       </div>
 
-      <!-- بازی ۶ -->
       <div class="card">
         <div class="card-banner">
           <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/siasefidgame.webp" alt="بازی ۶">
@@ -352,7 +175,6 @@
         </div>
       </div>
 
-      <!-- بازی ۷ -->
       <div class="card">
         <div class="card-banner">
           <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/siasefidgame.webp" alt="بازی ۷">
@@ -368,7 +190,6 @@
         </div>
       </div>
 
-      <!-- بازی ۸ -->
       <div class="card">
         <div class="card-banner">
           <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/siasefidgame.webp" alt="بازی ۸">
@@ -387,54 +208,50 @@
     </section>
   </div>
 
-  <!-- 🔹 پاپ‌آپ درباره طاویتا (الان دیگه استفاده نمی‌شه، فقط توی کد مونده) -->
-  <div class="modal-backdrop" id="aboutModal">
-    <div class="modal">
-      <h3>درباره طاویتا</h3>
-      <p>
-        طاویتا یک فضای آموزشی و سرگرم‌کننده‌ست که با بازی‌ها و ابزارهای ذهنی، کمک می‌کنه هوش، تمرکز، خلاقیت و حالِ خوبت رو تمرین کنی.
-      </p>
-      <p>
-        هدف طاویتا اینه که یادگیری و کار روی عادت‌ها شبیه یک بازی جذاب و بدون استرس باشه؛ جایی که با چند کلیک ساده، هم ذهن‌ات رو به چالش می‌کشی و هم بیشتر خودت رو می‌شناسی.
-      </p>
-      <p>
-        بازی‌های طاویتا قدم‌به‌قدم همراه تو هستن تا نسخهٔ قوی‌تر، آرام‌تر و شادترِ خودت رو بسازی 💚
-      </p>
-      <button class="modal-close" id="aboutClose">باشه</button>
-    </div>
-  </div>
-
   <script>
-    // دکمه‌های شروع بازی (همان رفتار قبلی)
-    document.querySelectorAll(".card[data-url]").forEach(card=>{
-      const btn = card.querySelector(".card-btn");
-      const url = card.getAttribute("data-url");
-      if (!btn || !url) return;
-      btn.addEventListener("click",e=>{
+    (function initEitaa(){
+      if(window.Eitaa && window.Eitaa.WebApp){
+        try{
+          var wa = window.Eitaa.WebApp;
+          if(wa.ready) wa.ready();
+          if(wa.expand) wa.expand();
+        }catch(e){}
+      }
+    })();
+
+    function openInEitaaOrBrowser(url){
+      if(!url) return;
+      if(window.Eitaa && window.Eitaa.WebApp){
+        if(typeof window.Eitaa.WebApp.openLink === "function"){
+          try{
+            window.Eitaa.WebApp.openLink(url);
+            return;
+          }catch(e){}
+        }
+        if(typeof window.Eitaa.WebApp.openEitaaLink === "function"){
+          try{
+            window.Eitaa.WebApp.openEitaaLink(url);
+            return;
+          }catch(e){}
+        }
+      }
+      window.location.href = url;
+    }
+
+    document.querySelectorAll(".card[data-url]").forEach(function(card){
+      var btn = card.querySelector(".card-btn");
+      var url = card.getAttribute("data-url");
+      if(!btn || !url) return;
+      btn.addEventListener("click",function(e){
         e.stopPropagation();
-        window.location.href = url;
+        openInEitaaOrBrowser(url);
       });
     });
 
-    // دکمه «کانال طاویتا» به جای پاپ‌آپ درباره
-    const aboutBtn = document.getElementById("aboutBtn");
-    if (aboutBtn) {
-      aboutBtn.textContent = "کانال طاویتا";
-      aboutBtn.addEventListener("click", () => {
-        const url = "https://eitaa.com/tavita";
-
-        // اگر در محیط ایتا و WebApp باشیم، لینک کانال را داخل ایتا باز می‌کند
-        if (window.Eitaa && window.Eitaa.WebApp && typeof window.Eitaa.WebApp.openEitaaLink === "function") {
-          try {
-            window.Eitaa.WebApp.openEitaaLink(url);
-            return;
-          } catch (e) {
-            console.warn("openEitaaLink failed, fallback to location", e);
-          }
-        }
-
-        // حالت عادی مرورگر
-        window.location.href = url;
+    var aboutBtn = document.getElementById("aboutBtn");
+    if(aboutBtn){
+      aboutBtn.addEventListener("click",function(){
+        openInEitaaOrBrowser("https://eitaa.com/tavita");
       });
     }
   </script>
