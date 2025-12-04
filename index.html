@@ -339,31 +339,20 @@
   </div>
 
   <script>
-    // اگر داخل ایتا هستیم، WebApp را آماده و باز می‌کنیم
+    // اگر داخل ایتا هستیم، در صورت وجود WebApp فقط ready/expand را صدا می‌زنیم
     if (window.Eitaa && window.Eitaa.WebApp) {
       try {
         const wa = window.Eitaa.WebApp;
-        wa.ready();
-        wa.expand();
+        if (wa.ready) wa.ready();
+        if (wa.expand) wa.expand();
       } catch (e) {
         console.warn("Eitaa WebApp init error:", e);
       }
     }
 
-    // تابع استاندارد برای باز کردن بازی‌ها
+    // تابع استاندارد برای باز کردن بازی‌ها (ساده و قابل اعتماد در همه‌جا)
     function openGame(url) {
       if (!url) return;
-
-      if (window.Eitaa && window.Eitaa.WebApp && typeof window.Eitaa.WebApp.openLink === "function") {
-        try {
-          window.Eitaa.WebApp.openLink(url);
-          return;
-        } catch (e) {
-          console.warn("openLink failed, fallback to location", e);
-        }
-      }
-
-      // حالت مرورگر عادی
       window.location.href = url;
     }
 
@@ -371,7 +360,7 @@
     document.querySelectorAll(".card[data-url]").forEach(card => {
       const btn = card.querySelector(".card-btn");
       const url = card.getAttribute("data-url");
-      if (!btn) return;
+      if (!btn || !url) return;
       btn.addEventListener("click", e => {
         e.stopPropagation();
         openGame(url);
@@ -383,16 +372,6 @@
     if (tavitaBtn) {
       tavitaBtn.addEventListener("click", () => {
         const url = "https://eitaa.com/tavita";
-
-        if (window.Eitaa && window.Eitaa.WebApp && typeof window.Eitaa.WebApp.openLink === "function") {
-          try {
-            window.Eitaa.WebApp.openLink(url);
-            return;
-          } catch (e) {
-            console.warn("openLink (channel) failed, fallback", e);
-          }
-        }
-
         window.location.href = url;
       });
     }
