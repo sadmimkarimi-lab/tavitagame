@@ -7,6 +7,8 @@
 
   <!-- فونت وزیر -->
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+  <!-- SDK ایتا -->
+  <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
 
   <style>
     *{box-sizing:border-box;}
@@ -235,8 +237,8 @@
 
     <!-- 🔹 هدر -->
     <header class="topbar">
-      <!-- چپ: درباره -->
-      <button class="about-btn" id="aboutBtn">درباره طاویتا</button>
+      <!-- چپ: کانال طاویتا (جای درباره) -->
+      <button class="about-btn" id="aboutBtn">کانال طاویتا</button>
 
       <!-- راست: لوگو + عنوان -->
       <div class="header-right">
@@ -385,7 +387,7 @@
     </section>
   </div>
 
-  <!-- 🔹 پاپ‌آپ درباره طاویتا -->
+  <!-- 🔹 پاپ‌آپ درباره طاویتا (الان دیگه استفاده نمی‌شه، فقط توی کد مونده) -->
   <div class="modal-backdrop" id="aboutModal">
     <div class="modal">
       <h3>درباره طاویتا</h3>
@@ -402,68 +404,39 @@
     </div>
   </div>
 
-<script>
-  // اگر داخل ایتا هستیم، WebApp را آماده می‌کنیم
-  (function initEitaaWebApp() {
-    if (window.Eitaa && window.Eitaa.WebApp) {
-      try {
-        const wa = window.Eitaa.WebApp;
-        wa.ready();
-        if (typeof wa.expand === "function") {
-          wa.expand();
-        }
-      } catch (e) {
-        console.warn("Eitaa WebApp init error:", e);
-      }
-    }
-  })();
-
-  // تابع استاندارد برای باز کردن لینک‌ها (بازی‌ها و کانال)
-  function openInEitaa(url) {
-    if (!url) return;
-
-    // اگر داخل ایتا هستیم و openLink داریم
-    if (window.Eitaa && window.Eitaa.WebApp && typeof window.Eitaa.WebApp.openLink === "function") {
-      try {
-        window.Eitaa.WebApp.openLink(url);
-        return;
-      } catch (e) {
-        console.warn("openLink failed, fallback to location", e);
-      }
-    }
-
-    // حالت مرورگر عادی
-    window.location.href = url;
-  }
-
-  // دکمه‌های شروع بازی (کارت‌ها)
-  document.querySelectorAll(".card[data-url]").forEach(card => {
-    const btn = card.querySelector(".card-btn");
-    const url = card.getAttribute("data-url");
-    if (!btn) return;
-
-    btn.addEventListener("click", e => {
-      e.stopPropagation();
-      openInEitaa(url);
+  <script>
+    // دکمه‌های شروع بازی (همان رفتار قبلی)
+    document.querySelectorAll(".card[data-url]").forEach(card=>{
+      const btn = card.querySelector(".card-btn");
+      const url = card.getAttribute("data-url");
+      if (!btn || !url) return;
+      btn.addEventListener("click",e=>{
+        e.stopPropagation();
+        window.location.href = url;
+      });
     });
-  });
 
-  // 🔁 تبدیل دکمه «درباره ما» به «کانال طاویتا»
-  const aboutBtn   = document.getElementById("aboutBtn");
-  if (aboutBtn) {
-    // تغییر متن دکمه
-    aboutBtn.textContent = "کانال طاویتا";
+    // دکمه «کانال طاویتا» به جای پاپ‌آپ درباره
+    const aboutBtn = document.getElementById("aboutBtn");
+    if (aboutBtn) {
+      aboutBtn.textContent = "کانال طاویتا";
+      aboutBtn.addEventListener("click", () => {
+        const url = "https://eitaa.com/tavita";
 
-    // حذف رفتار پاپ‌آپ و وصل کردن به کانال
-    aboutBtn.onclick = function () {
-      openInEitaa("https://eitaa.com/tavita");
-    };
-  }
+        // اگر در محیط ایتا و WebApp باشیم، لینک کانال را داخل ایتا باز می‌کند
+        if (window.Eitaa && window.Eitaa.WebApp && typeof window.Eitaa.WebApp.openEitaaLink === "function") {
+          try {
+            window.Eitaa.WebApp.openEitaaLink(url);
+            return;
+          } catch (e) {
+            console.warn("openEitaaLink failed, fallback to location", e);
+          }
+        }
 
-  // ✅ پاپ‌آپ درباره ما عملاً غیرفعال است؛
-  // چون دیگر روی aboutBtn لیسنر پاپ‌آپ ثبت نکردیم.
-</script>
-</body>
-</html>
+        // حالت عادی مرورگر
+        window.location.href = url;
+      });
+    }
+  </script>
 </body>
 </html>
