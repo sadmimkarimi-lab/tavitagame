@@ -7,6 +7,8 @@
 
   <!-- فونت وزیر -->
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+  <!-- SDK رسمی ایتا -->
+  <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
 
   <style>
     *{box-sizing:border-box;}
@@ -31,14 +33,14 @@
       justify-content:space-between;
       gap:16px;
       margin-bottom:22px;
-      direction:ltr;           /* ترتیب فلکس بر اساس چپ→راست */
+      direction:ltr;
     }
 
     .header-right{
       display:flex;
       align-items:center;
       gap:12px;
-      direction:rtl;           /* متن داخل هدر راست‌چین بمونه */
+      direction:rtl;
     }
 
     .logo-wrap{
@@ -81,17 +83,16 @@
       color:#022c22;
       white-space:nowrap;
       box-shadow:0 8px 18px rgba(22,163,74,.6);
-      direction:rtl;           /* متن دکمه فارسی */
+      direction:rtl;
     }
     .about-btn:active{
       transform:translateY(1px);
       box-shadow:0 4px 10px rgba(22,163,74,.5);
     }
 
-    /* ❗ اینجا رو عوض کردم که تو موبایل هم یک خط بمونه */
     @media(max-width:600px){
       .topbar{
-        flex-direction:row;      /* دیگه column نیست */
+        flex-direction:row;
         align-items:center;
         gap:10px;
       }
@@ -184,49 +185,6 @@
       background:#111827;
       box-shadow:none;
     }
-
-    /* 🔹 پاپ‌آپ درباره */
-    .modal-backdrop{
-      position:fixed;
-      inset:0;
-      background:rgba(15,23,42,.55);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:30;
-    }
-    .modal-backdrop.active{display:flex;}
-
-    .modal{
-      background:#020617;
-      border-radius:20px;
-      padding:16px 16px 14px;
-      max-width:340px;
-      width:88%;
-      box-shadow:0 20px 50px rgba(15,23,42,.95);
-      font-size:13px;
-    }
-    .modal h3{
-      margin:0 0 8px;
-      font-size:15px;
-      text-align:right;
-    }
-    .modal p{
-      margin:4px 0;
-      color:#d1d5db;
-      line-height:1.9;
-    }
-    .modal-close{
-      margin-top:10px;
-      width:100%;
-      border-radius:999px;
-      border:none;
-      padding:7px 0;
-      font-size:13px;
-      background:linear-gradient(135deg,#22c55e,#a3e635);
-      color:#022c22;
-      cursor:pointer;
-    }
   </style>
 </head>
 
@@ -235,8 +193,8 @@
 
     <!-- 🔹 هدر -->
     <header class="topbar">
-      <!-- چپ: درباره -->
-      <button class="about-btn" id="aboutBtn">درباره طاویتا</button>
+      <!-- چپ: کانال طاویتا -->
+      <button class="about-btn" id="tavitaBtn">کانال طاویتا</button>
 
       <!-- راست: لوگو + عنوان -->
       <div class="header-right">
@@ -258,7 +216,6 @@
       <div class="card" data-url="https://hooshita.vercel.app/">
         <div class="card-banner">
           <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/hooshitagqme.webp" alt="هوشیتا">
-        
         </div>
         <div class="card-title">هوشیتا</div>
         <div class="card-desc">
@@ -274,7 +231,6 @@
       <div class="card" data-url="https://bazi-kalamat.vercel.app/">
         <div class="card-banner">
           <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/kalamatgame.webp" alt="بازی با کلمات">
-         
         </div>
         <div class="card-title">بازی با کلمات</div>
         <div class="card-desc">
@@ -290,7 +246,6 @@
       <div class="card" data-url="https://ball-rain.vercel.app/">
         <div class="card-banner">
           <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/toopgame.webp" alt="توپ‌بارون">
-          
         </div>
         <div class="card-title">توپ‌بارون</div>
         <div class="card-desc">
@@ -306,7 +261,6 @@
       <div class="card" data-url="https://bad-breaker.vercel.app/">
         <div class="card-banner">
           <img src="https://cdnfa.com/irangiah/a9be/uploads/bazi2/badshekangame.webp" alt="بدشکن طاویتا">
-          
         </div>
         <div class="card-title">بدشکن طاویتا</div>
         <div class="card-desc">
@@ -321,12 +275,11 @@
       <!-- تانکیتا -->
       <div class="card" data-url="https://tank-two-navy.vercel.app/">
         <div class="card-banner">
-          <img src="https://cdnfa.com/irangiah/a9be/uploads/tank/bannertank.webp" alt="بدشکن طاویتا">
-          
+          <img src="https://cdnfa.com/irangiah/a9be/uploads/tank/bannertank.webp" alt="تانکیتا">
         </div>
         <div class="card-title">تانکیتا</div>
         <div class="card-desc">
-          با تانک اراده ات به جنگ با بدی ها برو... در این باری مرحله به مرحله قوی تر خواهی شد.
+          با تانک اراده‌ات به جنگ با بدی‌ها برو... در این بازی مرحله به مرحله قوی‌تر خواهی شد.
         </div>
         <div class="card-footer">
           <span class="status-active">فعال</span>
@@ -385,45 +338,64 @@
     </section>
   </div>
 
-  <!-- 🔹 پاپ‌آپ درباره طاویتا -->
-  <div class="modal-backdrop" id="aboutModal">
-    <div class="modal">
-      <h3>درباره طاویتا</h3>
-      <p>
-        طاویتا یک فضای آموزشی و سرگرم‌کننده‌ست که با بازی‌ها و ابزارهای ذهنی، کمک می‌کنه هوش، تمرکز، خلاقیت و حالِ خوبت رو تمرین کنی.
-      </p>
-      <p>
-        هدف طاویتا اینه که یادگیری و کار روی عادت‌ها شبیه یک بازی جذاب و بدون استرس باشه؛ جایی که با چند کلیک ساده، هم ذهن‌ات رو به چالش می‌کشی و هم بیشتر خودت رو می‌شناسی.
-      </p>
-      <p>
-        بازی‌های طاویتا قدم‌به‌قدم همراه تو هستن تا نسخهٔ قوی‌تر، آرام‌تر و شادترِ خودت رو بسازی 💚
-      </p>
-      <button class="modal-close" id="aboutClose">باشه</button>
-    </div>
-  </div>
-
   <script>
+    // اگر داخل ایتا هستیم، WebApp را آماده و باز می‌کنیم
+    if (window.Eitaa && window.Eitaa.WebApp) {
+      try {
+        const wa = window.Eitaa.WebApp;
+        wa.ready();
+        wa.expand();
+      } catch (e) {
+        console.warn("Eitaa WebApp init error:", e);
+      }
+    }
+
+    // تابع استاندارد برای باز کردن بازی‌ها
+    function openGame(url) {
+      if (!url) return;
+
+      if (window.Eitaa && window.Eitaa.WebApp && typeof window.Eitaa.WebApp.openLink === "function") {
+        try {
+          window.Eitaa.WebApp.openLink(url);
+          return;
+        } catch (e) {
+          console.warn("openLink failed, fallback to location", e);
+        }
+      }
+
+      // حالت مرورگر عادی
+      window.location.href = url;
+    }
+
     // دکمه‌های شروع بازی
-    document.querySelectorAll(".card[data-url]").forEach(card=>{
+    document.querySelectorAll(".card[data-url]").forEach(card => {
       const btn = card.querySelector(".card-btn");
       const url = card.getAttribute("data-url");
-      btn.addEventListener("click",e=>{
+      if (!btn) return;
+      btn.addEventListener("click", e => {
         e.stopPropagation();
-        if(!url) return;
-        window.location.href = url;
+        openGame(url);
       });
     });
 
-    // پاپ‌آپ درباره طاویتا
-    const aboutBtn   = document.getElementById("aboutBtn");
-    const aboutModal = document.getElementById("aboutModal");
-    const aboutClose = document.getElementById("aboutClose");
+    // دکمه «کانال طاویتا»
+    const tavitaBtn = document.getElementById("tavitaBtn");
+    if (tavitaBtn) {
+      tavitaBtn.addEventListener("click", () => {
+        const url = "https://eitaa.com/tavita";
 
-    aboutBtn.addEventListener("click",()=>aboutModal.classList.add("active"));
-    aboutClose.addEventListener("click",()=>aboutModal.classList.remove("active"));
-    aboutModal.addEventListener("click",e=>{
-      if(e.target===aboutModal) aboutModal.classList.remove("active");
-    });
+        if (window.Eitaa && window.Eitaa.WebApp && typeof window.Eitaa.WebApp.openLink === "function") {
+          try {
+            window.Eitaa.WebApp.openLink(url);
+            return;
+          } catch (e) {
+            console.warn("openLink (channel) failed, fallback", e);
+          }
+        }
+
+        window.location.href = url;
+      });
+    }
   </script>
 </body>
 </html>
